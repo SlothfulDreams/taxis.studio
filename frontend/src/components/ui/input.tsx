@@ -1,4 +1,5 @@
-import * as React from "react";
+import type * as React from "react";
+import { useId } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -44,11 +45,16 @@ function InputWithLabel({
   className,
   type,
   label,
+  id,
   ...props
 }: React.ComponentProps<"input"> & { label: string }) {
+  const generatedId = useId();
+  const inputId = id || generatedId;
+
   return (
     <div className="relative">
       <input
+        id={inputId}
         type={type}
         data-slot="input"
         placeholder=" "
@@ -74,6 +80,7 @@ function InputWithLabel({
         {...props}
       />
       <label
+        htmlFor={inputId}
         className={cn(
           "absolute left-4 top-1/2 -translate-y-1/2",
           "text-slate-500 text-sm",
@@ -102,6 +109,7 @@ function SearchInput({
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path
           strokeLinecap="round"

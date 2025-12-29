@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
-import { ConvexClientProvider } from "@/components/providers/convex-provider";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { ConvexClientProvider } from "@/components/providers/convex-provider";
 import "./globals.css";
 
 // Premium display font - clean, geometric, modern

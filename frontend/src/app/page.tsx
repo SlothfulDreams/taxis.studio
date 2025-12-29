@@ -1,20 +1,12 @@
 "use client";
 
+import { ArrowRight, Layers, Paintbrush, Sparkles, Wand2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/components/providers/auth-provider";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/motion";
-import {
-  ArrowRight,
-  Sparkles,
-  Paintbrush,
-  Wand2,
-  Layers,
-  CheckCircle2,
-} from "lucide-react";
+import { useAuth } from "@/components/providers/auth-provider";
+import { Button } from "@/components/ui/button";
 
 // Feature data with updated icons
 const features = [
@@ -192,7 +184,7 @@ export default function HomePage() {
             </FadeIn>
 
             <StaggerContainer className="grid gap-8 sm:grid-cols-3">
-              {features.map((feature, index) => (
+              {features.map((feature, _index) => (
                 <StaggerItem key={feature.title}>
                   <div className="group h-full p-8 rounded-2xl bg-background border border-border/50 hover:border-border transition-colors shadow-sm">
                     <div className="mb-6 inline-flex p-3 rounded-xl bg-primary/5 text-primary">

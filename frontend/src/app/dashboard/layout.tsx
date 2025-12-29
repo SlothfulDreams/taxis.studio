@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { motion } from "framer-motion";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -65,6 +65,7 @@ export default function DashboardLayout({
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                   strokeWidth={2}
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -88,6 +89,7 @@ export default function DashboardLayout({
                   <div className="relative">
                     <div className="relative flex size-7 items-center justify-center overflow-hidden rounded-full bg-secondary text-xs font-medium text-secondary-foreground ring-1 ring-border">
                       {user?.image ? (
+                        // biome-ignore lint/performance/noImgElement: OAuth provider avatar URLs are dynamic/external
                         <img
                           src={user.image}
                           alt={user.name || "User"}
@@ -109,6 +111,7 @@ export default function DashboardLayout({
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                     strokeWidth={2}
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -138,6 +141,7 @@ export default function DashboardLayout({
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -162,6 +166,7 @@ export default function DashboardLayout({
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"

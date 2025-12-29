@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { useEditor } from "./EditorContext";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useEditor } from "./EditorContext";
 
 interface ImageUploadProps {
   onImageUpload?: (file: File, dataUrl: string) => void | Promise<void>;
@@ -60,7 +60,7 @@ export function ImageUpload({ onImageUpload }: ImageUploadProps) {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith("image/")) {
+    if (file?.type.startsWith("image/")) {
       const input = fileInputRef.current;
       if (input) {
         const dataTransfer = new DataTransfer();
@@ -108,6 +108,7 @@ export function ImageUpload({ onImageUpload }: ImageUploadProps) {
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"

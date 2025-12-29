@@ -1,11 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useQuery, useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import type { GenericId } from "convex/values";
-import { api } from "../../../convex/_generated/api";
+import { motion } from "framer-motion";
+import {
+  ArrowUpRight,
+  Clock,
+  FileText,
+  Plus,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { FadeIn, StaggerContainer, StaggerItem } from "@/components/motion";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,16 +26,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { FadeIn, StaggerContainer, StaggerItem } from "@/components/motion";
-import {
-  Plus,
-  Trash2,
-  Clock,
-  FileText,
-  ArrowUpRight,
-  Sparkles,
-} from "lucide-react";
+import { api } from "../../../convex/_generated/api";
 
 export default function DashboardPage() {
   const projects = useQuery(api.projects.listProjects);
@@ -235,6 +235,7 @@ export default function DashboardPage() {
                     <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-card/50 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5">
                       {/* Delete Button */}
                       <button
+                        type="button"
                         onClick={(e) => handleDeleteProject(project._id, e)}
                         disabled={deletingId === project._id}
                         className="absolute right-3 top-3 z-20 rounded-full bg-black/40 p-2 text-white/70 backdrop-blur-md opacity-0 transition-all hover:bg-destructive hover:text-white group-hover:opacity-100"
@@ -258,6 +259,7 @@ export default function DashboardPage() {
                       {/* Thumbnail */}
                       <div className="aspect-[4/3] bg-muted/50 w-full overflow-hidden relative">
                         {project.thumbnailUrl ? (
+                          // biome-ignore lint/performance/noImgElement: Dynamic Convex storage URLs
                           <img
                             src={project.thumbnailUrl}
                             alt={project.name}

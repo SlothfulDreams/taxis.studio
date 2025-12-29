@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  useScroll,
-  useTransform,
-  useSpring,
   type MotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
 } from "framer-motion";
-import { useRef, type RefObject } from "react";
+import { type RefObject, useRef } from "react";
 
 interface ScrollAnimationOptions {
   offset?: readonly [string, string][];

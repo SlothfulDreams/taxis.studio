@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEditor } from "./EditorContext";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
+import { useEditor } from "./EditorContext";
 
 const stylePresets = [
   {
@@ -143,11 +143,12 @@ export function PromptPanel({
         >
           {/* Model Selection */}
           <div className="space-y-3">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
               AI Model
-            </label>
+            </span>
             <div className="grid grid-cols-2 gap-3">
               <button
+                type="button"
                 onClick={() => setSelectedModel("gpt")}
                 className={`relative flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all ${
                   selectedModel === "gpt"
@@ -165,6 +166,7 @@ export function PromptPanel({
               </button>
 
               <button
+                type="button"
                 onClick={() => setSelectedModel("gemini")}
                 className={`relative flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all ${
                   selectedModel === "gemini"
@@ -186,9 +188,9 @@ export function PromptPanel({
           {/* Prompt */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
                 Instructions
-              </label>
+              </span>
               <span className="text-[10px] text-muted-foreground">
                 {prompt.length}/500
               </span>
@@ -208,12 +210,13 @@ export function PromptPanel({
 
           {/* Style Presets */}
           <div className="space-y-3">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
               Style Presets
-            </label>
+            </span>
             <div className="flex flex-wrap gap-2">
               {stylePresets.map((style) => (
                 <button
+                  type="button"
                   key={style.name}
                   onClick={() => addStyleToPrompt(style.name)}
                   className="rounded-full border border-border/40 bg-muted/20 px-3 py-1 text-xs font-medium text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-foreground transition-colors"
@@ -259,9 +262,9 @@ export function PromptPanel({
           className="flex-1 p-5 space-y-4 overflow-y-auto mt-0"
         >
           <div className="space-y-3">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
               Generate New Image
-            </label>
+            </span>
             <textarea
               placeholder="Describe the interior you want to create..."
               className="min-h-[140px] w-full resize-none rounded-xl border border-border/40 bg-muted/20 p-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
@@ -283,6 +286,7 @@ export function PromptPanel({
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -299,14 +303,16 @@ export function PromptPanel({
             </div>
           ) : (
             <div className="space-y-4">
-              {allHistory.map((item, index) => (
+              {allHistory.map((item, _index) => (
                 <button
+                  type="button"
                   key={item._id}
                   onClick={() => item.url && handleSelectHistory(item.url)}
                   className="group relative w-full overflow-hidden rounded-xl border border-border/40 bg-muted/20 transition-all hover:border-primary/30 hover:shadow-md"
                 >
                   {item.url && (
                     <div className="aspect-video w-full bg-muted">
+                      {/* biome-ignore lint/performance/noImgElement: Dynamic Convex storage URLs */}
                       <img
                         src={item.url}
                         alt={item.prompt || "Generated image"}

@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEditor, Tool } from "./EditorContext";
 import { Slider } from "@/components/ui/slider";
+import { type Tool, useEditor } from "./EditorContext";
 
 const tools: {
   id: Tool;
@@ -20,6 +20,7 @@ const tools: {
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path
           strokeLinecap="round"
@@ -40,6 +41,7 @@ const tools: {
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path
           strokeLinecap="round"
@@ -60,6 +62,7 @@ const tools: {
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path
           strokeLinecap="round"
@@ -166,6 +169,7 @@ export function Toolbar() {
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"

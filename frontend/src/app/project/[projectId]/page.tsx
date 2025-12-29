@@ -1,22 +1,22 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useMutation, useQuery } from "convex/react";
+import type { GenericId } from "convex/values";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { useQuery, useMutation } from "convex/react";
-import type { GenericId } from "convex/values";
-import { api } from "../../../../convex/_generated/api";
-import { Button } from "@/components/ui/button";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
   EditorProvider,
-  useEditor,
   ImageCanvas,
-  Toolbar,
-  PromptPanel,
   ImageUpload,
+  PromptPanel,
+  Toolbar,
+  useEditor,
 } from "@/components/editor";
+import { Button } from "@/components/ui/button";
+import { api } from "../../../../convex/_generated/api";
 
 interface ProjectPageProps {
   params: Promise<{ projectId: string }>;
@@ -61,7 +61,7 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
 
   // Handle image upload to Convex storage
   const handleImageUpload = useCallback(
-    async (file: File, dataUrl: string) => {
+    async (file: File, _dataUrl: string) => {
       try {
         // Get upload URL from Convex
         const uploadUrl = await generateUploadUrl();
@@ -301,6 +301,7 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -339,6 +340,7 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -360,6 +362,7 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -395,6 +398,7 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -413,7 +417,7 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
         <Toolbar />
 
         {/* Main Canvas Area */}
-        <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-muted/20 p-6">
+        <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-muted/20">
           {/* Dot Pattern Background */}
           <div
             className="absolute inset-0 z-0 opacity-20"
@@ -423,9 +427,9 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
             }}
           ></div>
 
-          <div className="relative z-10 w-full max-w-5xl h-full flex items-center justify-center">
+          <div className="relative z-10 w-full h-full flex items-center justify-center">
             {currentImage ? (
-              <div className="relative shadow-2xl shadow-black/20 rounded-lg overflow-hidden border border-border/40">
+              <div className="relative w-full h-full shadow-2xl shadow-black/20 rounded-lg overflow-hidden border border-border/40">
                 <ImageCanvas width={1024} height={768} />
               </div>
             ) : (

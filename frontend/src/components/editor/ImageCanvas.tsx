@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
 import { Canvas, FabricImage, PencilBrush } from "fabric";
+import { useEffect, useRef } from "react";
 import { useEditor } from "./EditorContext";
 
 interface ImageCanvasProps {
@@ -13,11 +13,14 @@ export function ImageCanvas({ width = 800, height = 600 }: ImageCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const fabricRef = useRef<Canvas | null>(null);
+  // Store the current image's aspect ratio so ResizeObserver can use it
+  const imageAspectRatioRef = useRef<number | null>(null);
 
   const { setCanvas, currentImage, activeTool, brushSize, brushColor } =
     useEditor();
 
-  // Initialize Fabric canvas
+  // Initialize Fabric canvas - runs once on mount
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Canvas initialization runs once; updates handled by separate effects below
   useEffect(() => {
     if (!canvasRef.current || fabricRef.current) return;
 
@@ -44,7 +47,52 @@ export function ImageCanvas({ width = 800, height = 600 }: ImageCanvasProps) {
     };
   }, []);
 
+  // Helper function to resize canvas and re-scale image
+  const resizeCanvasToFit = (
+    containerWidth: number,
+    containerHeight: number,
+  ) => {
+    const canvas = fabricRef.current;
+    if (!canvas) return;
+
+    // Use image aspect ratio if we have one, otherwise use default props
+    const aspectRatio = imageAspectRatioRef.current || width / height;
+
+    let newWidth: number;
+    let newHeight: number;
+
+    if (containerWidth / containerHeight > aspectRatio) {
+      // Container is wider - fit by height
+      newHeight = containerHeight;
+      newWidth = containerHeight * aspectRatio;
+    } else {
+      // Container is taller - fit by width
+      newWidth = containerWidth;
+      newHeight = containerWidth / aspectRatio;
+    }
+
+    canvas.setDimensions({ width: newWidth, height: newHeight });
+
+    // Re-scale the background image if one exists
+    const objects = canvas.getObjects();
+    const bgImage = objects.find((obj) => obj.type === "image") as
+      | FabricImage
+      | undefined;
+    if (bgImage?.width) {
+      const scale = newWidth / bgImage.width;
+      bgImage.set({
+        scaleX: scale,
+        scaleY: scale,
+        left: 0,
+        top: 0,
+      });
+    }
+
+    canvas.renderAll();
+  };
+
   // Update canvas size on container resize
+  // biome-ignore lint/correctness/useExhaustiveDependencies: ResizeObserver handles size changes; resizeCanvasToFit is stable
   useEffect(() => {
     const container = containerRef.current;
     if (!container || !fabricRef.current) return;
@@ -52,21 +100,9 @@ export function ImageCanvas({ width = 800, height = 600 }: ImageCanvasProps) {
     const resizeObserver = new ResizeObserver((entries) => {
       const { width: containerWidth, height: containerHeight } =
         entries[0].contentRect;
-      const canvas = fabricRef.current;
-      if (!canvas) return;
-
-      // Maintain aspect ratio while fitting container
-      const aspectRatio = width / height;
-      let newWidth = containerWidth;
-      let newHeight = containerWidth / aspectRatio;
-
-      if (newHeight > containerHeight) {
-        newHeight = containerHeight;
-        newWidth = containerHeight * aspectRatio;
+      if (containerWidth > 0 && containerHeight > 0) {
+        resizeCanvasToFit(containerWidth, containerHeight);
       }
-
-      canvas.setDimensions({ width: newWidth, height: newHeight });
-      canvas.renderAll();
     });
 
     resizeObserver.observe(container);
@@ -74,43 +110,71 @@ export function ImageCanvas({ width = 800, height = 600 }: ImageCanvasProps) {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [width, height]);
+  }, []);
 
   // Load image when currentImage changes
   useEffect(() => {
     const canvas = fabricRef.current;
-    if (!canvas || !currentImage) return;
+    const container = containerRef.current;
+    if (!canvas || !currentImage || !container) return;
 
     // Clear existing objects
     canvas.clear();
     canvas.backgroundColor = "#1e293b";
 
     // Load the image
-    FabricImage.fromURL(currentImage).then((img) => {
-      if (!img || !fabricRef.current) return;
+    FabricImage.fromURL(currentImage, { crossOrigin: "anonymous" }).then(
+      (img) => {
+        if (!img || !fabricRef.current || !containerRef.current) return;
 
-      const canvasWidth = canvas.width || width;
-      const canvasHeight = canvas.height || height;
+        const imgWidth = img.width || 1;
+        const imgHeight = img.height || 1;
 
-      // Scale image to fit canvas while maintaining aspect ratio
-      const imgWidth = img.width || 1;
-      const imgHeight = img.height || 1;
-      const scale =
-        Math.min(canvasWidth / imgWidth, canvasHeight / imgHeight) * 0.9; // 90% to leave some padding
+        // Store the image's aspect ratio for the ResizeObserver
+        imageAspectRatioRef.current = imgWidth / imgHeight;
 
-      img.scale(scale);
-      img.set({
-        left: (canvasWidth - imgWidth * scale) / 2,
-        top: (canvasHeight - imgHeight * scale) / 2,
-        selectable: false,
-        evented: false,
-      });
+        // Get container dimensions
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const containerWidth = containerRect.width;
+        const containerHeight = containerRect.height;
 
-      canvas.add(img);
-      canvas.sendObjectToBack(img);
-      canvas.renderAll();
-    });
-  }, [currentImage, width, height]);
+        // Calculate canvas size to exactly match image aspect ratio
+        let canvasWidth: number;
+        let canvasHeight: number;
+
+        if (containerWidth / containerHeight > imageAspectRatioRef.current) {
+          // Container is wider than image - fit by height
+          canvasHeight = containerHeight;
+          canvasWidth = containerHeight * imageAspectRatioRef.current;
+        } else {
+          // Container is taller than image - fit by width
+          canvasWidth = containerWidth;
+          canvasHeight = containerWidth / imageAspectRatioRef.current;
+        }
+
+        // Resize canvas to match image aspect ratio
+        canvas.setDimensions({ width: canvasWidth, height: canvasHeight });
+
+        // Scale image to fill canvas exactly (no padding/bars)
+        const scale = canvasWidth / imgWidth;
+
+        img.set({
+          scaleX: scale,
+          scaleY: scale,
+          left: 0,
+          top: 0,
+          selectable: false,
+          evented: false,
+          originX: "left",
+          originY: "top",
+        });
+
+        canvas.add(img);
+        canvas.sendObjectToBack(img);
+        canvas.renderAll();
+      },
+    );
+  }, [currentImage]);
 
   // Update drawing mode based on active tool
   useEffect(() => {

@@ -1,13 +1,13 @@
 "use client";
 
+import type { Canvas as FabricCanvas, FabricObject } from "fabric";
 import {
   createContext,
+  type ReactNode,
+  useCallback,
   useContext,
   useState,
-  useCallback,
-  ReactNode,
 } from "react";
-import type { Canvas as FabricCanvas } from "fabric";
 
 export type Tool = "select" | "brush" | "eraser";
 export type AIModel = "gpt" | "gemini";
@@ -81,7 +81,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     if (canvas) {
       // Get all objects except the background image
       const objects = canvas.getObjects().filter((obj) => obj.type !== "image");
-      objects.forEach((obj) => canvas.remove(obj));
+      objects.forEach((obj) => {
+        canvas.remove(obj);
+      });
       canvas.renderAll();
       setMaskDataUrl(null);
     }
@@ -105,7 +107,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
 
     // Draw brush strokes in white (areas to edit)
-    objects.forEach((obj: any) => {
+    objects.forEach((obj: FabricObject) => {
       if (obj.type === "path") {
         maskCtx.save();
         maskCtx.strokeStyle = "white";
@@ -113,8 +115,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
         maskCtx.lineCap = "round";
         maskCtx.lineJoin = "round";
 
+        const pathObj = obj as FabricObject & { path?: (string | number)[][] };
         const path = new Path2D(
-          obj.path?.map((p: any) => p.join(" ")).join(" ") || "",
+          pathObj.path
+            ?.map((p: (string | number)[]) => p.join(" "))
+            .join(" ") || "",
         );
         maskCtx.stroke(path);
         maskCtx.restore();

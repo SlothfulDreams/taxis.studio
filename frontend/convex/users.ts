@@ -1,5 +1,5 @@
-import { query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
+import { query } from "./_generated/server";
 
 // Get the current authenticated user
 export const getCurrentUser = query({

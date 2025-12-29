@@ -6,12 +6,15 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/providers/auth-provider";
+import { FadeIn, StaggerContainer, StaggerItem } from "@/components/motion";
 import {
-  FadeIn,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/motion";
-import { ArrowRight, Sparkles, Paintbrush, Wand2, Layers, CheckCircle2 } from "lucide-react";
+  ArrowRight,
+  Sparkles,
+  Paintbrush,
+  Wand2,
+  Layers,
+  CheckCircle2,
+} from "lucide-react";
 
 // Feature data with updated icons
 const features = [
@@ -47,35 +50,34 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-primary/20">
-      
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-md">
         <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Sparkles className="size-4" />
-              </div>
-              <span className="font-display text-base font-semibold tracking-tight">
-                Interior AI
-              </span>
-            </Link>
-
-            <div className="flex items-center gap-2">
-              <Link href="/sign-in">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  Sign in
-                </Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button variant="default" size="sm">
-                  Get Started
-                </Button>
-              </Link>
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Sparkles className="size-4" />
             </div>
+            <span className="font-display text-base font-semibold tracking-tight">
+              Interior AI
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <Link href="/sign-in">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                Sign in
+              </Button>
+            </Link>
+            <Link href="/sign-up">
+              <Button variant="default" size="sm">
+                Get Started
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -83,7 +85,6 @@ export default function HomePage() {
       <main className="relative pt-32 pb-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="flex flex-col items-center text-center">
-            
             {/* Badge */}
             <FadeIn delay={0.05}>
               <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-3 py-1">
@@ -117,10 +118,7 @@ export default function HomePage() {
             <FadeIn delay={0.2}>
               <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
                 <Link href="/sign-up">
-                  <Button
-                    size="xl"
-                    className="group min-w-[180px]"
-                  >
+                  <Button size="xl" className="group min-w-[180px]">
                     Start for free
                     <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                   </Button>
@@ -133,22 +131,28 @@ export default function HomePage() {
 
             {/* Social proof */}
             <FadeIn delay={0.25} className="mt-10">
-               <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                 <div className="flex -space-x-2 mr-4">
-                    {[1,2,3,4].map((i) => (
-                      <div key={i} className="size-6 rounded-full bg-muted border-2 border-background" />
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <div className="flex -space-x-2 mr-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="size-6 rounded-full bg-muted border-2 border-background"
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Sparkles
+                        key={i}
+                        className="size-3 text-yellow-500 fill-yellow-500"
+                      />
                     ))}
-                 </div>
-                 <div className="flex items-center gap-1">
-                   <div className="flex">
-                     {[1,2,3,4,5].map((i) => (
-                       <Sparkles key={i} className="size-3 text-yellow-500 fill-yellow-500" />
-                     ))}
-                   </div>
-                   <span className="font-medium">4.9/5</span>
-                   <span className="opacity-50">from 2k+ users</span>
-                 </div>
-               </div>
+                  </div>
+                  <span className="font-medium">4.9/5</span>
+                  <span className="opacity-50">from 2k+ users</span>
+                </div>
+              </div>
             </FadeIn>
           </div>
 
@@ -157,7 +161,7 @@ export default function HomePage() {
             <div className="relative mx-auto max-w-5xl">
               {/* Glow behind */}
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-[2rem] blur-3xl opacity-50" />
-              
+
               <div className="relative rounded-2xl border border-border/50 bg-background shadow-2xl overflow-hidden ring-1 ring-white/10">
                 <div className="flex h-11 items-center gap-1.5 border-b border-border/50 bg-muted/30 px-4">
                   <div className="size-3 rounded-full bg-red-500/20 border border-red-500/30" />
@@ -165,7 +169,7 @@ export default function HomePage() {
                   <div className="size-3 rounded-full bg-green-500/20 border border-green-500/30" />
                 </div>
                 <div className="aspect-[16/9] bg-muted/10 flex items-center justify-center">
-                    <p className="text-muted-foreground">App Interface Preview</p>
+                  <p className="text-muted-foreground">App Interface Preview</p>
                 </div>
               </div>
             </div>
@@ -219,9 +223,9 @@ export default function HomePage() {
                 their dream interiors.
               </p>
               <div className="mt-10 flex justify-center gap-4">
-                 <Link href="/sign-up">
-                    <Button size="xl">Get started free</Button>
-                 </Link>
+                <Link href="/sign-up">
+                  <Button size="xl">Get started free</Button>
+                </Link>
               </div>
               <p className="mt-6 text-xs text-muted-foreground">
                 No credit card required · Free trial included
@@ -237,7 +241,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <div className="flex items-center gap-2">
               <div className="size-6 rounded-md bg-primary text-primary-foreground flex items-center justify-center">
-                 <Sparkles className="size-3" />
+                <Sparkles className="size-3" />
               </div>
               <span className="text-sm font-medium">Interior AI</span>
             </div>

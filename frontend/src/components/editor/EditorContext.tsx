@@ -113,7 +113,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
         maskCtx.lineCap = "round";
         maskCtx.lineJoin = "round";
 
-        const path = new Path2D(obj.path?.map((p: any) => p.join(" ")).join(" ") || "");
+        const path = new Path2D(
+          obj.path?.map((p: any) => p.join(" ")).join(" ") || "",
+        );
         maskCtx.stroke(path);
         maskCtx.restore();
       }

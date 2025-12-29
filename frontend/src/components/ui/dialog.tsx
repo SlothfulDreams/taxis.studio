@@ -44,7 +44,7 @@ function DialogOverlay({
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         "duration-300",
-        className
+        className,
       )}
       {...props}
     />
@@ -87,7 +87,7 @@ function DialogContent({
           "data-[state=closed]:slide-out-to-bottom-4 data-[state=open]:slide-in-from-bottom-4",
           "duration-300",
           "outline-none",
-          className
+          className,
         )}
         {...props}
       >
@@ -102,7 +102,7 @@ function DialogContent({
               "hover:bg-white/10",
               "transition-colors duration-200",
               "focus:outline-none focus:ring-2 focus:ring-violet-500/50",
-              "[&_svg]:size-4"
+              "[&_svg]:size-4",
             )}
           >
             <XIcon />
@@ -130,7 +130,7 @@ function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="dialog-footer"
       className={cn(
         "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
-        className
+        className,
       )}
       {...props}
     />
@@ -144,10 +144,7 @@ function DialogTitle({
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn(
-        "text-lg leading-none font-semibold text-white",
-        className
-      )}
+      className={cn("text-lg leading-none font-semibold text-white", className)}
       {...props}
     />
   );

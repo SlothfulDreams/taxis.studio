@@ -45,7 +45,8 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
     clearHistory,
   } = useEditor();
 
-  const [currentImageId, setCurrentImageId] = useState<GenericId<"images"> | null>(null);
+  const [currentImageId, setCurrentImageId] =
+    useState<GenericId<"images"> | null>(null);
 
   // Load the most recent image when images are loaded
   useEffect(() => {
@@ -295,14 +296,26 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
           className="text-center"
         >
           <div className="mb-6 flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 border border-white/[0.08] mx-auto">
-            <svg className="size-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="size-10 text-slate-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
           <h1 className="text-xl font-medium text-white mb-2">
             Project not found
           </h1>
-          <p className="text-slate-400 mb-6">This project may have been deleted or doesn't exist.</p>
+          <p className="text-slate-400 mb-6">
+            This project may have been deleted or doesn't exist.
+          </p>
           <Button variant="premium" onClick={() => router.push("/dashboard")}>
             Back to Dashboard
           </Button>
@@ -341,32 +354,36 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
           <div className="h-4 w-px bg-border/60" />
 
           <div className="flex items-center gap-3">
-             <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <svg
-                  className="size-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-             </div>
-             <div>
-                <h1 className="text-sm font-medium tracking-tight">{project.name}</h1>
-                {project.description && (
-                  <p className="max-w-[200px] truncate text-xs text-muted-foreground">{project.description}</p>
-                )}
-             </div>
+            <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <svg
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-sm font-medium tracking-tight">
+                {project.name}
+              </h1>
+              {project.description && (
+                <p className="max-w-[200px] truncate text-xs text-muted-foreground">
+                  {project.description}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-           <Button
+          <Button
             variant="outline"
             size="sm"
             onClick={handleExport}
@@ -397,10 +414,14 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
 
         {/* Main Canvas Area */}
         <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-muted/20 p-6">
-           {/* Dot Pattern Background */}
-           <div className="absolute inset-0 z-0 opacity-20" 
-                style={{ backgroundImage: 'radial-gradient(#a1a1aa 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-           </div>
+          {/* Dot Pattern Background */}
+          <div
+            className="absolute inset-0 z-0 opacity-20"
+            style={{
+              backgroundImage: "radial-gradient(#a1a1aa 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+            }}
+          ></div>
 
           <div className="relative z-10 w-full max-w-5xl h-full flex items-center justify-center">
             {currentImage ? (
@@ -450,7 +471,9 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
 }
 
 export default function ProjectPage({ params }: ProjectPageProps) {
-  const [projectId, setProjectId] = useState<GenericId<"projects"> | null>(null);
+  const [projectId, setProjectId] = useState<GenericId<"projects"> | null>(
+    null,
+  );
 
   useEffect(() => {
     params.then((p) => setProjectId(p.projectId as GenericId<"projects">));

@@ -217,10 +217,12 @@
   .shimmer::after {
     @apply absolute inset-0 -skew-x-12 z-10 w-full;
     content: "";
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(255, 255, 255, 0.05),
-        transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
     transform: translateX(-100%);
     animation: shimmer 1.5s infinite;
   }

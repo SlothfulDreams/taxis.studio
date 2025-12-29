@@ -4,13 +4,23 @@ import { motion } from "framer-motion";
 import { useEditor, Tool } from "./EditorContext";
 import { Slider } from "@/components/ui/slider";
 
-const tools: { id: Tool; label: string; shortcut: string; icon: React.ReactNode }[] = [
+const tools: {
+  id: Tool;
+  label: string;
+  shortcut: string;
+  icon: React.ReactNode;
+}[] = [
   {
     id: "select",
     label: "Select",
     shortcut: "V",
     icon: (
-      <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="size-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -25,7 +35,12 @@ const tools: { id: Tool; label: string; shortcut: string; icon: React.ReactNode 
     label: "Brush (Mask)",
     shortcut: "B",
     icon: (
-      <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="size-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -40,7 +55,12 @@ const tools: { id: Tool; label: string; shortcut: string; icon: React.ReactNode 
     label: "Eraser",
     shortcut: "E",
     icon: (
-      <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="size-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -53,13 +73,8 @@ const tools: { id: Tool; label: string; shortcut: string; icon: React.ReactNode 
 ];
 
 export function Toolbar() {
-  const {
-    activeTool,
-    setActiveTool,
-    brushSize,
-    setBrushSize,
-    clearMask,
-  } = useEditor();
+  const { activeTool, setActiveTool, brushSize, setBrushSize, clearMask } =
+    useEditor();
 
   const showBrushControls = activeTool === "brush" || activeTool === "eraser";
 
@@ -94,7 +109,9 @@ export function Toolbar() {
             <div className="absolute left-full ml-3 hidden group-hover:flex items-center pointer-events-none z-50">
               <div className="relative rounded-lg bg-popover border border-border px-3 py-1.5 shadow-lg">
                 <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 border-8 border-transparent border-r-popover" />
-                <p className="text-sm font-medium text-popover-foreground whitespace-nowrap">{tool.label}</p>
+                <p className="text-sm font-medium text-popover-foreground whitespace-nowrap">
+                  {tool.label}
+                </p>
                 <p className="text-xs text-muted-foreground">{tool.shortcut}</p>
               </div>
             </div>
@@ -127,7 +144,9 @@ export function Toolbar() {
                 orientation="vertical"
               />
               <div className="flex items-center justify-center size-8 rounded-lg bg-background border border-border/50">
-                <span className="text-xs font-medium text-foreground">{brushSize}</span>
+                <span className="text-xs font-medium text-foreground">
+                  {brushSize}
+                </span>
               </div>
             </div>
           </div>
@@ -142,7 +161,12 @@ export function Toolbar() {
         whileTap={{ scale: 0.95 }}
         title="Clear Mask"
       >
-        <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="size-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -155,7 +179,9 @@ export function Toolbar() {
         <div className="absolute left-full ml-3 hidden group-hover:flex items-center pointer-events-none z-50">
           <div className="relative rounded-lg bg-popover border border-border px-3 py-1.5 shadow-lg">
             <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 border-8 border-transparent border-r-popover" />
-            <p className="text-sm font-medium text-popover-foreground whitespace-nowrap">Clear Mask</p>
+            <p className="text-sm font-medium text-popover-foreground whitespace-nowrap">
+              Clear Mask
+            </p>
           </div>
         </div>
       </motion.button>

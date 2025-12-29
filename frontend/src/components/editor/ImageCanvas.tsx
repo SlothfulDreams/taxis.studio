@@ -14,13 +14,8 @@ export function ImageCanvas({ width = 800, height = 600 }: ImageCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const fabricRef = useRef<Canvas | null>(null);
 
-  const {
-    setCanvas,
-    currentImage,
-    activeTool,
-    brushSize,
-    brushColor,
-  } = useEditor();
+  const { setCanvas, currentImage, activeTool, brushSize, brushColor } =
+    useEditor();
 
   // Initialize Fabric canvas
   useEffect(() => {
@@ -55,7 +50,8 @@ export function ImageCanvas({ width = 800, height = 600 }: ImageCanvasProps) {
     if (!container || !fabricRef.current) return;
 
     const resizeObserver = new ResizeObserver((entries) => {
-      const { width: containerWidth, height: containerHeight } = entries[0].contentRect;
+      const { width: containerWidth, height: containerHeight } =
+        entries[0].contentRect;
       const canvas = fabricRef.current;
       if (!canvas) return;
 
@@ -99,10 +95,8 @@ export function ImageCanvas({ width = 800, height = 600 }: ImageCanvasProps) {
       // Scale image to fit canvas while maintaining aspect ratio
       const imgWidth = img.width || 1;
       const imgHeight = img.height || 1;
-      const scale = Math.min(
-        canvasWidth / imgWidth,
-        canvasHeight / imgHeight
-      ) * 0.9; // 90% to leave some padding
+      const scale =
+        Math.min(canvasWidth / imgWidth, canvasHeight / imgHeight) * 0.9; // 90% to leave some padding
 
       img.scale(scale);
       img.set({

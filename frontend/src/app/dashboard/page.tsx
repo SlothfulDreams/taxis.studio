@@ -18,12 +18,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { FadeIn, StaggerContainer, StaggerItem } from "@/components/motion";
 import {
-  FadeIn,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/motion";
-import { Plus, Trash2, Clock, FileText, ArrowUpRight, Sparkles } from "lucide-react";
+  Plus,
+  Trash2,
+  Clock,
+  FileText,
+  ArrowUpRight,
+  Sparkles,
+} from "lucide-react";
 
 export default function DashboardPage() {
   const projects = useQuery(api.projects.listProjects);
@@ -112,8 +115,8 @@ export default function DashboardPage() {
 
   return (
     <div className="relative min-h-screen">
-       {/* Background Decoration */}
-       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* Background Decoration */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 w-full max-w-7xl h-96 bg-primary/5 blur-[100px] rounded-full" />
       </div>
 
@@ -164,10 +167,7 @@ export default function DashboardPage() {
                   >
                     Cancel
                   </Button>
-                  <Button
-                    onClick={handleCreateProject}
-                    disabled={isCreating}
-                  >
+                  <Button onClick={handleCreateProject} disabled={isCreating}>
                     {isCreating ? (
                       <>
                         <motion.div
@@ -195,21 +195,26 @@ export default function DashboardPage() {
         {projects.length === 0 ? (
           <FadeIn delay={0.1}>
             <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-white/[0.02] px-6 py-24 text-center shadow-2xl backdrop-blur-sm sm:px-12">
-               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50" />
-               <div className="relative flex flex-col items-center">
-                  <div className="mb-6 flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 shadow-lg">
-                    <Sparkles className="size-8 text-primary" />
-                  </div>
-                  <h3 className="mb-2 text-xl font-medium tracking-tight text-foreground">
-                    No projects yet
-                  </h3>
-                  <p className="mb-8 max-w-sm text-muted-foreground">
-                    Start by creating your first project. You can generate new interiors or edit existing photos.
-                  </p>
-                  <Button onClick={() => setIsCreateDialogOpen(true)} variant="outline" className="border-primary/20 hover:bg-primary/5">
-                    Create Project
-                  </Button>
-               </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50" />
+              <div className="relative flex flex-col items-center">
+                <div className="mb-6 flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 shadow-lg">
+                  <Sparkles className="size-8 text-primary" />
+                </div>
+                <h3 className="mb-2 text-xl font-medium tracking-tight text-foreground">
+                  No projects yet
+                </h3>
+                <p className="mb-8 max-w-sm text-muted-foreground">
+                  Start by creating your first project. You can generate new
+                  interiors or edit existing photos.
+                </p>
+                <Button
+                  onClick={() => setIsCreateDialogOpen(true)}
+                  variant="outline"
+                  className="border-primary/20 hover:bg-primary/5"
+                >
+                  Create Project
+                </Button>
+              </div>
             </div>
           </FadeIn>
         ) : (
@@ -223,9 +228,11 @@ export default function DashboardPage() {
                 updatedAt: number;
               }) => (
                 <StaggerItem key={project._id}>
-                  <Link href={`/project/${project._id}`} className="group block relative">
+                  <Link
+                    href={`/project/${project._id}`}
+                    className="group block relative"
+                  >
                     <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-card/50 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5">
-                      
                       {/* Delete Button */}
                       <button
                         onClick={(e) => handleDeleteProject(project._id, e)}
@@ -261,30 +268,32 @@ export default function DashboardPage() {
                             <FileText className="size-12 text-zinc-800" />
                           </div>
                         )}
-                        
+
                         {/* Hover Overlay */}
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                       </div>
 
                       {/* Info */}
                       <div className="p-5">
                         <div className="flex items-start justify-between gap-2">
-                           <div>
-                              <h3 className="font-medium text-lg tracking-tight text-foreground transition-colors group-hover:text-primary">
-                                {project.name}
-                              </h3>
-                              {project.description && (
-                                <p className="mt-1 line-clamp-1 text-xs text-muted-foreground/80">
-                                  {project.description}
-                                </p>
-                              )}
-                           </div>
-                           <ArrowUpRight className="size-5 text-muted-foreground opacity-0 -translate-x-2 translate-y-2 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 group-hover:text-primary" />
+                          <div>
+                            <h3 className="font-medium text-lg tracking-tight text-foreground transition-colors group-hover:text-primary">
+                              {project.name}
+                            </h3>
+                            {project.description && (
+                              <p className="mt-1 line-clamp-1 text-xs text-muted-foreground/80">
+                                {project.description}
+                              </p>
+                            )}
+                          </div>
+                          <ArrowUpRight className="size-5 text-muted-foreground opacity-0 -translate-x-2 translate-y-2 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 group-hover:text-primary" />
                         </div>
-                        
+
                         <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground/60">
                           <Clock className="size-3.5" />
-                          <span>Last updated {formatDate(project.updatedAt)}</span>
+                          <span>
+                            Last updated {formatDate(project.updatedAt)}
+                          </span>
                         </div>
                       </div>
                     </div>

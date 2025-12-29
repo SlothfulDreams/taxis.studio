@@ -32,7 +32,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
         // Invalid/error state
         "aria-invalid:border-red-500/50 aria-invalid:ring-red-500/20",
-        className
+        className,
       )}
       {...props}
     />
@@ -69,7 +69,7 @@ function InputWithLabel({
           "transition-all duration-200",
           // Disabled state
           "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-          className
+          className,
         )}
         {...props}
       />
@@ -81,7 +81,7 @@ function InputWithLabel({
           "pointer-events-none",
           // Float up when focused or has value
           "peer-focus:top-3 peer-focus:text-xs peer-focus:text-violet-400",
-          "peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-xs"
+          "peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-xs",
         )}
       >
         {label}
@@ -128,7 +128,7 @@ function SearchInput({
           "focus:bg-white/[0.08]",
           // Transitions
           "transition-all duration-200",
-          className
+          className,
         )}
         {...props}
       />

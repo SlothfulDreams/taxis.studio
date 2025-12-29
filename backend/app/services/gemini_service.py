@@ -3,6 +3,7 @@ from typing import Any
 from google import genai
 from google.genai import types
 
+from app.constants import ASPECT_RATIO_MAPPINGS, DEFAULT_MIME_TYPE, MODEL_GEMINI_FLASH
 from app.services.constants import INTERIOR_DESIGN_PROMPT_TEMPLATE
 
 
@@ -11,7 +12,7 @@ class GeminiService:
 
     def __init__(self, api_key: str):
         self.client = genai.Client(api_key=api_key)
-        self.model = "gemini-2.5-flash-image"
+        self.model = MODEL_GEMINI_FLASH
 
     def _get_gemini_aspect_ratio(self, aspect_ratio: str) -> str:
         """Convert aspect ratio to Gemini format."""
@@ -21,6 +22,7 @@ class GeminiService:
             "16:9": "16:9",
             "9:16": "9:16",
             "4:3": "4:3",
+            "3:4": "3:4",
         }
         return ratios.get(aspect_ratio, "16:9")
 
@@ -59,7 +61,7 @@ class GeminiService:
 
         result = {
             "image_base64": image_base64,
-            "mime_type": "image/png",
+            "mime_type": DEFAULT_MIME_TYPE,
             "description": description,
         }
 
@@ -77,7 +79,7 @@ class GeminiService:
         # Prepare the image for Gemini
         image_part = {
             "inline_data": {
-                "mime_type": "image/png",
+                "mime_type": DEFAULT_MIME_TYPE,
                 "data": image_base64,
             }
         }
@@ -107,7 +109,7 @@ class GeminiService:
 
         result = {
             "image_base64": image_base64_result,
-            "mime_type": "image/png",
+            "mime_type": DEFAULT_MIME_TYPE,
         }
 
         return result

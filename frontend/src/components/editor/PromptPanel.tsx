@@ -88,26 +88,26 @@ export function PromptPanel({
     }));
 
   return (
-    <aside className="w-80 border-l border-white/[0.06] bg-slate-900/80 backdrop-blur-xl flex flex-col">
+      <aside className="w-80 border-l border-border/40 bg-background/80 backdrop-blur-xl flex flex-col z-20">
       <Tabs defaultValue="edit" className="flex-1 flex flex-col">
-        <div className="p-3 border-b border-white/[0.06]">
-          <TabsList className="w-full">
-            <TabsTrigger value="edit" className="flex items-center gap-1.5">
-              <svg className="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
+        <div className="px-1 pt-3 border-b border-border/40">
+          <TabsList className="w-full bg-transparent p-0 gap-4 h-auto justify-start">
+            <TabsTrigger 
+              value="edit" 
+              className="relative h-9 rounded-none border-b-2 border-transparent bg-transparent px-2 pb-2 pt-1 font-medium text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            >
               Edit
             </TabsTrigger>
-            <TabsTrigger value="generate" className="flex items-center gap-1.5">
-              <svg className="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+            <TabsTrigger 
+              value="generate" 
+              className="relative h-9 rounded-none border-b-2 border-transparent bg-transparent px-2 pb-2 pt-1 font-medium text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            >
               Generate
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center gap-1.5">
-              <svg className="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <TabsTrigger 
+              value="history" 
+              className="relative h-9 rounded-none border-b-2 border-transparent bg-transparent px-2 pb-2 pt-1 font-medium text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            >
               History
             </TabsTrigger>
           </TabsList>
@@ -115,115 +115,81 @@ export function PromptPanel({
 
         <TabsContent
           value="edit"
-          className="flex-1 p-4 space-y-5 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
+          className="flex-1 p-5 space-y-6 overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent mt-0"
         >
           {/* Model Selection */}
-          <div>
-            <label className="block text-xs uppercase tracking-wider font-medium text-slate-400 mb-3">
+          <div className="space-y-3">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
               AI Model
             </label>
-            <div className="grid grid-cols-2 gap-2">
-              <motion.button
+            <div className="grid grid-cols-2 gap-3">
+              <button
                 onClick={() => setSelectedModel("gpt")}
-                className={`relative p-3 rounded-xl border text-left transition-all duration-200 overflow-hidden ${
+                className={`relative flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all ${
                   selectedModel === "gpt"
-                    ? "border-violet-500/50 bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 text-white"
-                    : "border-white/[0.06] bg-slate-800/50 text-slate-400 hover:border-white/[0.12] hover:text-white"
+                    ? "border-primary/50 bg-primary/5 text-foreground ring-1 ring-primary/20"
+                    : "border-border/60 bg-muted/20 text-muted-foreground hover:bg-muted/40 hover:text-foreground"
                 }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
               >
-                {selectedModel === "gpt" && (
-                  <motion.div
-                    layoutId="modelSelection"
-                    className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-fuchsia-600/10"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <div className="relative">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="size-2 rounded-full bg-violet-500" />
-                    <p className="font-medium text-sm">GPT Image</p>
-                  </div>
-                  <p className="text-xs opacity-70">Precise mask edits</p>
+                <div className="flex items-center gap-2">
+                  <div className={`size-2 rounded-full ${selectedModel === "gpt" ? "bg-primary" : "bg-muted-foreground/40"}`} />
+                  <span className="text-sm font-medium">GPT 4o</span>
                 </div>
-              </motion.button>
-              <motion.button
+                <span className="text-[10px] opacity-70">Precise edits</span>
+              </button>
+              
+              <button
                 onClick={() => setSelectedModel("gemini")}
-                className={`relative p-3 rounded-xl border text-left transition-all duration-200 overflow-hidden ${
+                className={`relative flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all ${
                   selectedModel === "gemini"
-                    ? "border-violet-500/50 bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 text-white"
-                    : "border-white/[0.06] bg-slate-800/50 text-slate-400 hover:border-white/[0.12] hover:text-white"
+                    ? "border-primary/50 bg-primary/5 text-foreground ring-1 ring-primary/20"
+                    : "border-border/60 bg-muted/20 text-muted-foreground hover:bg-muted/40 hover:text-foreground"
                 }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
               >
-                {selectedModel === "gemini" && (
-                  <motion.div
-                    layoutId="modelSelection"
-                    className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-fuchsia-600/10"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <div className="relative">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="size-2 rounded-full bg-fuchsia-500" />
-                    <p className="font-medium text-sm">Gemini</p>
-                  </div>
-                  <p className="text-xs opacity-70">Fast iterations</p>
+                 <div className="flex items-center gap-2">
+                  <div className={`size-2 rounded-full ${selectedModel === "gemini" ? "bg-fuchsia-500" : "bg-muted-foreground/40"}`} />
+                  <span className="text-sm font-medium">Gemini</span>
                 </div>
-              </motion.button>
+                <span className="text-[10px] opacity-70">Fast iterations</span>
+              </button>
             </div>
           </div>
 
           {/* Prompt */}
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <label className="text-xs uppercase tracking-wider font-medium text-slate-400">
-                Edit Instructions
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+                Instructions
               </label>
-              <span className="text-xs text-slate-500">{prompt.length}/500</span>
+              <span className="text-[10px] text-muted-foreground">{prompt.length}/500</span>
             </div>
-            <div className="relative">
-              <textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value.slice(0, 500))}
-                placeholder={
-                  selectedModel === "gpt"
-                    ? "Describe changes for the masked area..."
-                    : "Describe what to change (e.g., 'change the sofa to brown leather')..."
-                }
-                className="w-full h-28 px-4 py-3 bg-slate-800/50 border border-white/[0.06] rounded-xl text-white placeholder:text-slate-500 resize-none focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all duration-200"
-              />
-              <div className="absolute bottom-3 right-3">
-                <motion.div
-                  className="size-1.5 rounded-full bg-violet-500"
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              </div>
-            </div>
+            
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value.slice(0, 500))}
+              placeholder={
+                selectedModel === "gpt"
+                  ? "Describe changes for the masked area..."
+                  : "Describe what to change (e.g., 'change the sofa to brown leather')..."
+              }
+              className="min-h-[120px] w-full resize-none rounded-xl border border-border/40 bg-muted/20 p-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
+            />
           </div>
 
           {/* Style Presets */}
-          <div>
-            <label className="block text-xs uppercase tracking-wider font-medium text-slate-400 mb-3">
+          <div className="space-y-3">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
               Style Presets
             </label>
             <div className="flex flex-wrap gap-2">
               {stylePresets.map((style) => (
-                <motion.button
+                <button
                   key={style.name}
                   onClick={() => addStyleToPrompt(style.name)}
-                  className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-800/50 border border-white/[0.06] text-slate-300 hover:border-violet-500/30 hover:bg-violet-600/10 hover:text-white transition-all duration-200"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="rounded-full border border-border/40 bg-muted/20 px-3 py-1 text-xs font-medium text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-foreground transition-colors"
                 >
-                  <svg className="size-3 opacity-50 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={style.icon} />
-                  </svg>
-                  <span className="text-xs font-medium">{style.name}</span>
-                </motion.button>
+                  {style.name}
+                </button>
               ))}
             </div>
           </div>
@@ -232,157 +198,89 @@ export function PromptPanel({
           <Button
             onClick={handleGenerate}
             disabled={isGenerating || !currentImage}
-            variant="premium"
-            className="w-full h-12"
+            className="w-full h-12 rounded-xl text-base font-medium shadow-lg shadow-primary/10"
           >
             {isGenerating ? (
               <>
-                <motion.div
-                  className="size-5 rounded-full border-2 border-white/30 border-t-white"
+                 <motion.div
+                  className="mr-2 size-4 rounded-full border-2 border-background/30 border-t-background"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 />
-                <span className="ml-2">Generating...</span>
+                Processing...
               </>
             ) : (
               <>
-                <svg
-                  className="size-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-                <span className="ml-2">Apply Edit</span>
+                 <span className="mr-2">✨</span>
+                 Apply Edits
               </>
             )}
           </Button>
 
           {selectedModel === "gpt" && (
-            <motion.p
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-xs text-slate-500 text-center flex items-center justify-center gap-2"
-            >
-              <svg className="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <p className="text-xs text-muted-foreground text-center animate-in fade-in slide-in-from-bottom-2">
               Use the brush tool to mask areas you want to edit
-            </motion.p>
+            </p>
           )}
         </TabsContent>
 
-        <TabsContent value="generate" className="flex-1 p-4 space-y-4 overflow-y-auto">
-          <div>
-            <label className="block text-xs uppercase tracking-wider font-medium text-slate-400 mb-3">
+        <TabsContent value="generate" className="flex-1 p-5 space-y-4 overflow-y-auto mt-0">
+          <div className="space-y-3">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
               Generate New Image
             </label>
             <textarea
               placeholder="Describe the interior you want to create..."
-              className="w-full h-28 px-4 py-3 bg-slate-800/50 border border-white/[0.06] rounded-xl text-white placeholder:text-slate-500 resize-none focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all duration-200"
+              className="min-h-[140px] w-full resize-none rounded-xl border border-border/40 bg-muted/20 p-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
             />
           </div>
 
-          <Button variant="success" className="w-full h-12">
-            <svg
-              className="size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            <span className="ml-2">Generate New</span>
+          <Button className="w-full h-12 rounded-xl">
+            Generate New
           </Button>
         </TabsContent>
 
-        <TabsContent value="history" className="flex-1 p-4 overflow-y-auto">
+        <TabsContent value="history" className="flex-1 p-5 overflow-y-auto mt-0">
           {allHistory.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center justify-center py-12"
-            >
-              <motion.div
-                className="mb-4 flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 border border-white/[0.08]"
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <svg className="size-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
+              <div className="mb-4 rounded-full bg-muted/50 p-4">
+                 <svg className="size-6 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
-              </motion.div>
-              <p className="text-slate-400 font-medium">No edit history yet</p>
-              <p className="text-xs text-slate-500 mt-1">
-                Your generated images will appear here
-              </p>
-            </motion.div>
+              </div>
+              <p className="text-sm font-medium">No history yet</p>
+              <p className="text-xs opacity-70 mt-1">Generated images will appear here</p>
+            </div>
           ) : (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-3"
-            >
+            <div className="space-y-4">
               {allHistory.map((item, index) => (
-                <motion.button
+                <button
                   key={item._id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
                   onClick={() => item.url && handleSelectHistory(item.url)}
-                  className="group w-full text-left rounded-xl overflow-hidden border border-white/[0.06] bg-slate-800/50 hover:border-violet-500/30 hover:bg-slate-800/80 transition-all duration-200"
+                  className="group relative w-full overflow-hidden rounded-xl border border-border/40 bg-muted/20 transition-all hover:border-primary/30 hover:shadow-md"
                 >
                   {item.url && (
-                    <div className="relative aspect-video overflow-hidden">
+                    <div className="aspect-video w-full bg-muted">
                       <img
                         src={item.url}
                         alt={item.prompt || "Generated image"}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
-                        <span className="text-xs font-medium text-white bg-violet-600/80 px-3 py-1 rounded-full">
-                          Load Image
-                        </span>
-                      </div>
                     </div>
                   )}
-                  <div className="p-3">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span
-                        className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full font-medium ${
-                          item.type === "original"
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : "bg-violet-500/20 text-violet-400"
-                        }`}
-                      >
+                  <div className="p-3 text-left">
+                     <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                        item.type === "original" ? "bg-emerald-500/10 text-emerald-500" : "bg-primary/10 text-primary"
+                     }`}>
                         {item.type}
-                      </span>
-                      {item.aiModel && (
-                        <span className="text-[10px] text-slate-500">
-                          {item.aiModel}
-                        </span>
-                      )}
-                    </div>
-                    {item.prompt && (
-                      <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                        {item.prompt}
-                      </p>
-                    )}
+                     </span>
+                     {item.prompt && (
+                      <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{item.prompt}</p>
+                     )}
                   </div>
-                </motion.button>
+                </button>
               ))}
-            </motion.div>
+            </div>
           )}
         </TabsContent>
       </Tabs>

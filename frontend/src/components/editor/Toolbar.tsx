@@ -64,17 +64,17 @@ export function Toolbar() {
   const showBrushControls = activeTool === "brush" || activeTool === "eraser";
 
   return (
-    <aside className="w-16 border-r border-white/[0.06] bg-slate-900/80 backdrop-blur-xl flex flex-col items-center py-4 gap-1">
+    <aside className="w-16 border-r border-border/40 bg-background/80 backdrop-blur-xl flex flex-col items-center py-4 gap-1 z-20">
       {/* Tool buttons container */}
-      <div className="flex flex-col gap-1 rounded-xl bg-slate-800/50 p-1.5 border border-white/[0.04]">
+      <div className="flex flex-col gap-1 rounded-xl bg-muted/20 p-1.5 border border-border/40">
         {tools.map((tool) => (
           <motion.button
             key={tool.id}
             onClick={() => setActiveTool(tool.id)}
             className={`group relative p-2.5 rounded-lg transition-all duration-200 ${
               activeTool === tool.id
-                ? "bg-gradient-to-br from-violet-600/30 to-fuchsia-600/30 text-white shadow-[0_0_20px_rgba(139,92,246,0.3)]"
-                : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
+                ? "bg-primary/10 text-primary shadow-sm"
+                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -84,18 +84,18 @@ export function Toolbar() {
             {activeTool === tool.id && (
               <motion.div
                 layoutId="activeToolGlow"
-                className="absolute inset-0 rounded-lg bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 border border-violet-500/30"
+                className="absolute inset-0 rounded-lg bg-primary/5 border border-primary/20"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
             <span className="relative z-10">{tool.icon}</span>
 
             {/* Tooltip */}
-            <div className="absolute left-full ml-3 hidden group-hover:flex items-center pointer-events-none">
-              <div className="relative rounded-lg bg-slate-900 border border-white/[0.08] px-3 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-                <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 border-8 border-transparent border-r-slate-900" />
-                <p className="text-sm font-medium text-white whitespace-nowrap">{tool.label}</p>
-                <p className="text-xs text-slate-400">{tool.shortcut}</p>
+            <div className="absolute left-full ml-3 hidden group-hover:flex items-center pointer-events-none z-50">
+              <div className="relative rounded-lg bg-popover border border-border px-3 py-1.5 shadow-lg">
+                <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 border-8 border-transparent border-r-popover" />
+                <p className="text-sm font-medium text-popover-foreground whitespace-nowrap">{tool.label}</p>
+                <p className="text-xs text-muted-foreground">{tool.shortcut}</p>
               </div>
             </div>
           </motion.button>
@@ -112,8 +112,8 @@ export function Toolbar() {
           exit={{ opacity: 0, y: 10 }}
           className="w-full px-2"
         >
-          <div className="rounded-xl bg-slate-800/50 p-3 border border-white/[0.04]">
-            <p className="text-[10px] uppercase tracking-wider text-slate-500 text-center mb-3 font-medium">
+          <div className="rounded-xl bg-muted/20 p-3 border border-border/40">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground text-center mb-3 font-medium">
               Size
             </p>
             <div className="flex flex-col items-center gap-3">
@@ -126,8 +126,8 @@ export function Toolbar() {
                 className="h-20"
                 orientation="vertical"
               />
-              <div className="flex items-center justify-center size-8 rounded-lg bg-slate-900/80 border border-white/[0.06]">
-                <span className="text-xs font-medium text-white">{brushSize}</span>
+              <div className="flex items-center justify-center size-8 rounded-lg bg-background border border-border/50">
+                <span className="text-xs font-medium text-foreground">{brushSize}</span>
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@ export function Toolbar() {
       {/* Clear mask button */}
       <motion.button
         onClick={clearMask}
-        className="group relative p-2.5 rounded-lg text-slate-400 hover:bg-white/[0.06] hover:text-white transition-all duration-200"
+        className="group relative p-2.5 rounded-lg text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-all duration-200"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         title="Clear Mask"
@@ -152,10 +152,10 @@ export function Toolbar() {
         </svg>
 
         {/* Tooltip */}
-        <div className="absolute left-full ml-3 hidden group-hover:flex items-center pointer-events-none">
-          <div className="relative rounded-lg bg-slate-900 border border-white/[0.08] px-3 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-            <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 border-8 border-transparent border-r-slate-900" />
-            <p className="text-sm font-medium text-white whitespace-nowrap">Clear Mask</p>
+        <div className="absolute left-full ml-3 hidden group-hover:flex items-center pointer-events-none z-50">
+          <div className="relative rounded-lg bg-popover border border-border px-3 py-1.5 shadow-lg">
+            <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 border-8 border-transparent border-r-popover" />
+            <p className="text-sm font-medium text-popover-foreground whitespace-nowrap">Clear Mask</p>
           </div>
         </div>
       </motion.button>

@@ -312,43 +312,38 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-[radial-gradient(ellipse_at_top,_oklch(0.10_0.02_280)_0%,_oklch(0.06_0.01_280)_100%)]">
+    <div className="flex flex-col h-screen bg-background overflow-hidden">
       {/* Header */}
-      <header className="relative z-10 border-b border-white/[0.06] bg-slate-900/60 backdrop-blur-2xl">
-        <div className="px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/dashboard"
-              className="group flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
-            >
-              <motion.div
-                className="flex items-center justify-center size-8 rounded-lg bg-slate-800/50 border border-white/[0.06] group-hover:bg-violet-600/20 group-hover:border-violet-500/30 transition-all duration-200"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+      <header className="relative z-20 flex h-14 items-center justify-between border-b border-border/40 bg-background/80 px-4 backdrop-blur-xl">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="group flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <div className="flex size-8 items-center justify-center rounded-md border border-border/50 bg-muted/50 transition-colors group-hover:border-primary/20 group-hover:bg-primary/10 group-hover:text-primary">
+              <svg
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </div>
+            <span className="hidden text-sm font-medium sm:inline">Back</span>
+          </Link>
+
+          <div className="h-4 w-px bg-border/60" />
+
+          <div className="flex items-center gap-3">
+             <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <svg
                   className="size-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </motion.div>
-              <span className="text-sm font-medium hidden sm:inline">Back</span>
-            </Link>
-
-            <div className="h-6 w-px bg-white/[0.06]" />
-
-            <div className="flex items-center gap-3">
-              <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 border border-white/[0.08]">
-                <svg
-                  className="size-4 text-violet-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -360,60 +355,58 @@ function EditorContent({ projectId }: { projectId: GenericId<"projects"> }) {
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-              </div>
-              <div>
-                <h1 className="text-sm font-medium text-white">{project.name}</h1>
+             </div>
+             <div>
+                <h1 className="text-sm font-medium tracking-tight">{project.name}</h1>
                 {project.description && (
-                  <p className="text-xs text-slate-500 truncate max-w-[200px]">{project.description}</p>
+                  <p className="max-w-[200px] truncate text-xs text-muted-foreground">{project.description}</p>
                 )}
-              </div>
-            </div>
+             </div>
           </div>
+        </div>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="glass"
-              size="sm"
-              onClick={handleExport}
-              disabled={!currentImage}
-              className="disabled:opacity-50"
+        <div className="flex items-center gap-2">
+           <Button
+            variant="outline"
+            size="sm"
+            onClick={handleExport}
+            disabled={!currentImage}
+            className="h-8 gap-2 border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground"
+          >
+            <svg
+              className="size-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                className="size-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                />
-              </svg>
-              <span className="hidden sm:inline">Export</span>
-            </Button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              />
+            </svg>
+            <span className="hidden sm:inline">Export</span>
+          </Button>
         </div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="relative flex flex-1 overflow-hidden">
         {/* Left Sidebar - Tools */}
         <Toolbar />
 
         {/* Main Canvas Area */}
-        <main className="flex-1 flex items-center justify-center bg-slate-950/50 p-8 overflow-hidden relative">
-          {/* Subtle background pattern */}
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)`,
-              backgroundSize: '24px 24px'
-            }} />
-          </div>
+        <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-muted/20 p-6">
+           {/* Dot Pattern Background */}
+           <div className="absolute inset-0 z-0 opacity-20" 
+                style={{ backgroundImage: 'radial-gradient(#a1a1aa 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
+           </div>
 
-          <div className="relative z-10">
+          <div className="relative z-10 w-full max-w-5xl h-full flex items-center justify-center">
             {currentImage ? (
-              <ImageCanvas width={1024} height={768} />
+              <div className="relative shadow-2xl shadow-black/20 rounded-lg overflow-hidden border border-border/40">
+                <ImageCanvas width={1024} height={768} />
+              </div>
             ) : (
               <ImageUpload onImageUpload={handleImageUpload} />
             )}

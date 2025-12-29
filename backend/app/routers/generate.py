@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.config import Settings, get_settings
+from app.constants import DEFAULT_MIME_TYPE
 from app.models.schemas import (
     AIModel,
     ErrorResponse,
@@ -40,7 +41,7 @@ async def generate_image(
 
         return GenerateResponse(
             image_base64=result["image_base64"],
-            mime_type=result.get("mime_type", "image/png"),
+            mime_type=result.get("mime_type", DEFAULT_MIME_TYPE),
             description=result.get("description"),
             token_usage=result.get("token_usage"),
         )

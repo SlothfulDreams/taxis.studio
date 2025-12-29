@@ -32,9 +32,9 @@ export default function DashboardLayout({
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[oklch(0.06_0.015_265)]">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <motion.div
-          className="size-8 rounded-full border-2 border-white/10 border-t-white/60"
+          className="size-8 rounded-full border-2 border-primary/10 border-t-primary/60"
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
         />
@@ -52,25 +52,15 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="min-h-screen bg-[oklch(0.06_0.015_265)]">
-      {/* Subtle background gradient */}
-      <div className="pointer-events-none fixed inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,oklch(0.12_0.03_265),transparent)]" />
-        <div className="absolute -left-20 top-1/3 h-[400px] w-[400px] rounded-full bg-[oklch(0.4_0.12_265_/_0.04)] blur-[100px]" />
-        <div className="absolute -right-20 bottom-1/3 h-[300px] w-[300px] rounded-full bg-[oklch(0.5_0.1_75_/_0.03)] blur-[100px]" />
-      </div>
-
-      {/* Noise overlay */}
-      <div className="noise-overlay pointer-events-none fixed inset-0" />
-
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/[0.04] bg-[oklch(0.06_0.015_265_/_0.8)] backdrop-blur-2xl">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="flex h-14 items-center justify-between">
+      <header className="sticky top-0 z-50 border-b border-border/40 bg-background/60 backdrop-blur-xl">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex h-16 items-center justify-between">
             <Link href="/dashboard" className="group flex items-center gap-2.5">
-              <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-[oklch(0.55_0.18_265)] to-[oklch(0.5_0.16_285)] shadow-[0_0_12px_oklch(0.55_0.18_265_/_0.3)]">
+              <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20">
                 <svg
-                  className="size-4 text-white"
+                  className="size-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -83,7 +73,7 @@ export default function DashboardLayout({
                   />
                 </svg>
               </div>
-              <span className="font-display text-base font-semibold tracking-tight text-white">
+              <span className="font-display text-base font-semibold tracking-tight text-foreground">
                 Interior AI
               </span>
             </Link>
@@ -92,12 +82,11 @@ export default function DashboardLayout({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="flex items-center gap-2 text-white/70 hover:text-white"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
                 >
                   {/* Avatar */}
                   <div className="relative">
-                    <div className="absolute -inset-0.5 rounded-full bg-gradient-to-br from-[oklch(0.55_0.18_265)] to-[oklch(0.5_0.16_285)] opacity-60" />
-                    <div className="relative flex size-7 items-center justify-center overflow-hidden rounded-full bg-[oklch(0.12_0.015_265)] text-xs font-medium text-white">
+                    <div className="relative flex size-7 items-center justify-center overflow-hidden rounded-full bg-secondary text-xs font-medium text-secondary-foreground ring-1 ring-border">
                       {user?.image ? (
                         <img
                           src={user.image}
@@ -115,7 +104,7 @@ export default function DashboardLayout({
                     {user?.name || user?.email?.split("@")[0]}
                   </span>
                   <svg
-                    className="size-3.5 text-white/40"
+                    className="size-3.5 text-muted-foreground/50"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -131,18 +120,18 @@ export default function DashboardLayout({
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-52 overflow-hidden rounded-xl border border-white/[0.06] bg-[oklch(0.1_0.015_265_/_0.95)] p-1 shadow-[0_16px_48px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
+                className="w-52 rounded-xl border border-border/40 bg-background/80 p-1 shadow-xl backdrop-blur-xl"
               >
                 <div className="px-3 py-2">
-                  <p className="text-sm font-medium text-white">
+                  <p className="text-sm font-medium text-foreground">
                     {user?.name || "User"}
                   </p>
-                  <p className="truncate text-xs text-white/40">
+                  <p className="truncate text-xs text-muted-foreground">
                     {user?.email}
                   </p>
                 </div>
-                <DropdownMenuSeparator className="bg-white/[0.04]" />
-                <DropdownMenuItem className="cursor-pointer rounded-lg text-white/60 focus:bg-white/[0.04] focus:text-white">
+                <DropdownMenuSeparator className="bg-border/40" />
+                <DropdownMenuItem className="cursor-pointer rounded-lg text-muted-foreground focus:bg-muted/50 focus:text-foreground">
                   <svg
                     className="mr-2 size-4"
                     fill="none"
@@ -187,9 +176,8 @@ export default function DashboardLayout({
           </div>
         </div>
       </header>
-
       {/* Main content */}
-      <main className="relative mx-auto max-w-6xl px-6 py-8">{children}</main>
+      <main className="relative">{children}</main>
     </div>
   );
 }

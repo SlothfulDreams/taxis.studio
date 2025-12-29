@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.config import Settings, get_settings
+from app.constants import DEFAULT_MIME_TYPE
 from app.models.schemas import (
     AIModel,
     EditRequest,
@@ -52,7 +53,7 @@ async def edit_image(
 
         return EditResponse(
             image_base64=result["image_base64"],
-            mime_type=result.get("mime_type", "image/png"),
+            mime_type=result.get("mime_type", DEFAULT_MIME_TYPE),
             token_usage=result.get("token_usage"),
         )
 
@@ -83,7 +84,7 @@ async def semantic_edit_image(
 
         return EditResponse(
             image_base64=result["image_base64"],
-            mime_type=result.get("mime_type", "image/png"),
+            mime_type=result.get("mime_type", DEFAULT_MIME_TYPE),
             token_usage=result.get("token_usage"),
         )
 

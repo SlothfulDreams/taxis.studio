@@ -6,14 +6,14 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2.5 whitespace-nowrap",
-    "rounded-xl font-medium",
-    "transition-all duration-300 ease-out",
-    "disabled:pointer-events-none disabled:opacity-40",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap",
+    "rounded-lg font-medium",
+    "transition-all duration-200 ease-in-out",
+    "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
     "shrink-0 [&_svg]:shrink-0",
     "outline-none select-none",
-    "focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   ].join(" "),
   {
     variants: {
@@ -21,89 +21,61 @@ const buttonVariants = cva(
         default: [
           "bg-primary text-primary-foreground",
           "hover:bg-primary/90",
-          "shadow-sm",
-          "hover:shadow-md",
-          "active:scale-[0.98] active:shadow-sm",
+          "shadow-sm hover:shadow-md",
+          "active:scale-[0.98]",
         ].join(" "),
 
-        // Premium gradient button - refined shimmer
+        // Premium - Clean, high contrast, white on dark
         premium: [
-          "relative overflow-hidden",
-          "bg-gradient-to-r from-[oklch(0.55_0.18_265)] via-[oklch(0.6_0.16_285)] to-[oklch(0.55_0.18_265)]",
-          "bg-[length:200%_100%]",
-          "text-white font-semibold tracking-[-0.01em]",
-          "shadow-[0_2px_16px_oklch(0.55_0.18_265_/_0.25)]",
-          "hover:shadow-[0_4px_24px_oklch(0.55_0.18_265_/_0.35)]",
-          "hover:bg-[position:100%_0]",
+          "bg-white text-black",
+          "hover:bg-white/90",
+          "shadow-sm hover:shadow-md",
+          "border border-white/20", // Subtle border for depth
           "active:scale-[0.98]",
-          "shimmer",
         ].join(" "),
 
-        // Glass button - elegant and minimal
+        // Glass - Frosted and subtle
         glass: [
-          "bg-white/[0.05] backdrop-blur-2xl",
-          "border border-white/[0.08]",
-          "text-white/90",
-          "hover:bg-white/[0.08]",
-          "hover:border-white/[0.12]",
-          "hover:text-white",
-          "shadow-[0_2px_8px_rgba(0,0,0,0.12)]",
-          "hover:shadow-[0_4px_12px_rgba(0,0,0,0.16)]",
-          "active:scale-[0.98]",
-        ].join(" "),
-
-        // Outline - clean border
-        outline: [
+          "bg-white/5 backdrop-blur-md",
           "border border-white/10",
-          "bg-transparent",
-          "text-foreground/70",
-          "hover:bg-white/[0.03]",
-          "hover:border-white/15",
-          "hover:text-foreground",
+          "text-foreground",
+          "hover:bg-white/10 hover:border-white/20",
           "active:scale-[0.98]",
         ].join(" "),
 
-        // Ghost - minimal
+        // Outline - Clean border
+        outline: [
+          "border border-input bg-transparent",
+          "hover:bg-accent hover:text-accent-foreground",
+          "active:scale-[0.98]",
+        ].join(" "),
+
+        // Ghost - Minimal
         ghost: [
-          "text-muted-foreground",
-          "hover:bg-white/[0.04]",
-          "hover:text-foreground",
+          "hover:bg-accent hover:text-accent-foreground",
           "active:scale-[0.98]",
         ].join(" "),
 
-        // Secondary - subtle emphasis
+        // Secondary
         secondary: [
           "bg-secondary text-secondary-foreground",
           "hover:bg-secondary/80",
-          "shadow-xs",
-          "active:scale-[0.98]",
+          "shadow-sm",
         ].join(" "),
 
-        // Success - refined green
-        success: [
-          "bg-[oklch(0.55_0.16_155)] text-white",
-          "hover:bg-[oklch(0.58_0.16_155)]",
-          "shadow-[0_2px_12px_oklch(0.55_0.16_155_/_0.2)]",
-          "hover:shadow-[0_4px_16px_oklch(0.55_0.16_155_/_0.3)]",
-          "active:scale-[0.98]",
-        ].join(" "),
-
-        // Destructive - refined red
+        // Destructive
         destructive: [
-          "bg-destructive text-white",
+          "bg-destructive text-destructive-foreground",
           "hover:bg-destructive/90",
-          "shadow-[0_2px_12px_oklch(0.55_0.22_25_/_0.2)]",
-          "active:scale-[0.98]",
+          "shadow-sm",
         ].join(" "),
       },
       size: {
-        default: "h-10 px-5 py-2 text-sm",
-        sm: "h-9 rounded-lg px-4 text-xs",
-        lg: "h-12 rounded-xl px-7 text-[15px]",
-        xl: "h-14 rounded-2xl px-8 text-base tracking-[-0.01em]",
-        icon: "size-10",
-        "icon-sm": "size-8 rounded-lg",
-        "icon-lg": "size-12 rounded-xl",
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-11 rounded-md px-8",
+        xl: "h-12 rounded-lg px-8 text-base",
+        icon: "size-9",
       },
     },
     defaultVariants: {

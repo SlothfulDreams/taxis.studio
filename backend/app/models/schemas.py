@@ -3,11 +3,13 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from app.constants import DEFAULT_MIME_TYPE, MODEL_GPT_IMAGE
+
 
 class AIModel(str, Enum):
     """Supported AI models for image generation."""
 
-    GPT_IMAGE = "gpt-image-1.5"
+    GPT_IMAGE = MODEL_GPT_IMAGE
     GEMINI_FLASH = "gemini-flash"
 
 
@@ -88,7 +90,7 @@ class GenerateResponse(BaseModel):
     """Response from image generation."""
 
     image_base64: str = Field(..., description="Base64-encoded generated image")
-    mime_type: str = Field(default="image/png", description="Image MIME type")
+    mime_type: str = Field(default=DEFAULT_MIME_TYPE, description="Image MIME type")
     description: Optional[str] = Field(
         None, description="AI-generated description of the image"
     )
@@ -99,7 +101,7 @@ class EditResponse(BaseModel):
     """Response from image editing."""
 
     image_base64: str = Field(..., description="Base64-encoded edited image")
-    mime_type: str = Field(default="image/png", description="Image MIME type")
+    mime_type: str = Field(default=DEFAULT_MIME_TYPE, description="Image MIME type")
     token_usage: Optional[TokenUsage] = Field(None, description="Token usage stats")
 
 

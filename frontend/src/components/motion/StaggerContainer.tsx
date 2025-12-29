@@ -25,7 +25,7 @@ const containerVariants = (
   },
 });
 
-export const staggerItemVariants: Variants = {
+const staggerItemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -37,7 +37,7 @@ export const staggerItemVariants: Variants = {
   },
 };
 
-export const staggerItemScaleVariants: Variants = {
+const staggerItemScaleVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95, y: 10 },
   visible: {
     opacity: 1,
@@ -85,33 +85,6 @@ export function StaggerItem({
         variant === "scale" ? staggerItemScaleVariants : staggerItemVariants
       }
       className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// Grid-specific stagger for project cards, etc.
-export function StaggerGrid({
-  children,
-  className,
-  columns = 3,
-}: {
-  children: ReactNode;
-  className?: string;
-  columns?: number;
-}) {
-  return (
-    <motion.div
-      variants={containerVariants(0.06, 0.1)}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      className={className}
-      style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-      }}
     >
       {children}
     </motion.div>

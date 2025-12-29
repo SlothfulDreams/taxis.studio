@@ -4,6 +4,7 @@ from typing import Any
 
 from openai import AsyncOpenAI
 
+from app.constants import ASPECT_RATIO_MAPPINGS, DEFAULT_MIME_TYPE, MODEL_GPT_IMAGE
 from app.services.constants import INTERIOR_DESIGN_PROMPT_TEMPLATE
 
 
@@ -12,17 +13,21 @@ class OpenAIService:
 
     def __init__(self, api_key: str):
         self.client = AsyncOpenAI(api_key=api_key)
-        self.model = "gpt-image-1.5"
+        self.model = MODEL_GPT_IMAGE
 
     def _get_size_from_aspect_ratio(self, aspect_ratio: str) -> str:
         """Convert aspect ratio to OpenAI size parameter."""
-        sizes = {
-            "1:1": "1024x1024",
-            "16:9": "1536x1024",
-            "9:16": "1024x1536",
-            "4:3": "1536x1024",  # Approximate with landscape
-        }
-        return sizes.get(aspect_ratio, "1024x1024")
+        return ASPECT_RATIO_MAPPINGS.get(aspect_ratio, "1024x1024")
+
+    def _extract_token_usage(self, response: Any) -> dict[str, int] | None:
+        """Extract token usage from OpenAI response if available."""
+        if hasattr(response, "usage") and response.usage:
+            return {
+                "input_tokens": response.usage.prompt_tokens,
+                "output_tokens": response.usage.completion_tokens,
+                "total_tokens": response.usage.total_tokens,
+            }
+        return None
 
     async def generate(
         self,
@@ -50,16 +55,13 @@ class OpenAIService:
 
         result = {
             "image_base64": image_data.b64_json,
-            "mime_type": "image/png",
+            "mime_type": DEFAULT_MIME_TYPE,
         }
 
         # Add token usage if available
-        if hasattr(response, "usage") and response.usage:
-            result["token_usage"] = {
-                "input_tokens": response.usage.prompt_tokens,
-                "output_tokens": response.usage.completion_tokens,
-                "total_tokens": response.usage.total_tokens,
-            }
+        token_usage = self._extract_token_usage(response)
+        if token_usage:
+            result["token_usage"] = token_usage
 
         return result
 
@@ -98,14 +100,11 @@ class OpenAIService:
 
         result = {
             "image_base64": image_data.b64_json,
-            "mime_type": "image/png",
+            "mime_type": DEFAULT_MIME_TYPE,
         }
 
-        if hasattr(response, "usage") and response.usage:
-            result["token_usage"] = {
-                "input_tokens": response.usage.prompt_tokens,
-                "output_tokens": response.usage.completion_tokens,
-                "total_tokens": response.usage.total_tokens,
-            }
+        token_usage = self._extract_token_usage(response)
+        if token_usage:
+            result["token_usage"] = token_usage
 
         return result
